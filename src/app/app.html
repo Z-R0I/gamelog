@@ -1,15 +1,7 @@
-<main class="min-h-screen bg-background text-foreground flex items-center justify-center dark">
-  <div class="text-center space-y-6 p-8">
-    <h1 class="text-5xl font-bold bg-gradient-to-r from-violet-400 to-fuchsia-500 bg-clip-text text-transparent pb-2 leading-tight">
-      Gamelog
-    </h1>
-    <p class="text-muted-foreground">Stack completo: Angular 20 + Tailwind + spartan-ng.</p>
-    <div class="flex gap-3 justify-center">
-      <button hlmBtn>Primary</button>
-      <button hlmBtn variant="outline">Outline</button>
-      <button hlmBtn variant="ghost">Ghost</button>
-    </div>
-  </div>
-</main>
-
-<router-outlet />
+<div class="dark min-h-screen bg-background text-foreground flex flex-col">
+  <app-header />
+  <main class="flex-1">
+    <router-outlet />
+  </main>
+  <app-footer />
+</div>
