@@ -1,10 +1,11 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { RawgService } from '../../core/services/rawg.service';
 import { Game } from '../../core/models/game';
+import { GameCard } from '../../shared/game-card/game-card';
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [GameCard],
   templateUrl: './home.html',
 })
 export class Home implements OnInit {

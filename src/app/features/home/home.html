@@ -1,20 +1,39 @@
-<section class="container mx-auto px-4 py-12">
-  <div class="text-center space-y-4">
-    <h1
-      class="text-5xl font-bold bg-gradient-to-r from-violet-400 to-fuchsia-500 bg-clip-text text-transparent pb-2 leading-tight"
-    >
-      Gamelog
-    </h1>
-    <p class="text-muted-foreground text-lg">
-      Descubre, busca y guarda tus juegos favoritos.
-    </p>
-    @for (game of games(); track game.id) {
-      <div>
-        <h3>{{ game.name }}</h3>
-        <img [src]="game.backgroundImage" [alt]="game.name" />
+<section class="relative">
+  <div
+    class="absolute inset-0 bg-gradient-to-b from-violet-900/20 via-background to-background pointer-events-none"
+  ></div>
+
+  <div class="relative container mx-auto px-4 py-16 space-y-12">
+    <div class="space-y-3 max-w-2xl">
+      <h1
+        class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-violet-400 to-fuchsia-500 bg-clip-text text-transparent pb-2 leading-tight"
+      >
+        Gamelog
+      </h1>
+      <p class="text-muted-foreground text-lg">
+        Descubre, busca y guarda tus juegos favoritos.
+      </p>
+    </div>
+
+    <div class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-2xl font-semibold tracking-tight">Destacados</h2>
+        <span class="text-sm text-muted-foreground">
+          {{ games().length }} juegos
+        </span>
       </div>
-    } @empty {
-      <p>No hay juegos</p>
-    }
+
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
+      >
+        @for (game of games(); track game.id) {
+          <app-game-card [game]="game" />
+        } @empty {
+          <p class="col-span-full text-center text-muted-foreground py-12">
+            Cargando juegos...
+          </p>
+        }
+      </div>
+    </div>
   </div>
 </section>
