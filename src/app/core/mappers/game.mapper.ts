@@ -8,7 +8,7 @@ function mapPlatformInfo(dto: PlatformInfoDto): PlatformInfo {
   };
 }
 
-function mapGame(dto: GameDto): Game {
+export function mapGame(dto: GameDto): Game {
   return {
     id: dto.id,
     slug: dto.slug,
@@ -22,8 +22,8 @@ function mapGame(dto: GameDto): Game {
     metacritic: dto.metacritic,
     playtime: dto.playtime,
     genres: dto.genres,
-    platforms: dto.platforms.map(mapPlatformInfo),
-    shortScreenshots: dto.short_screenshots,
+    platforms: (dto.platforms ?? []).map(mapPlatformInfo),
+    shortScreenshots: dto.short_screenshots ?? [],
   };
 }
 
