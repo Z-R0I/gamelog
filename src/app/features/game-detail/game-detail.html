@@ -1,4 +1,49 @@
-<section class="container mx-auto px-4 py-12">
-  <h2 class="text-3xl font-bold">Detalle juego</h2>
-  <p class="text-muted-foreground mt-2">Próximamente.</p>
-</section>
+@if (resource.isLoading()) {
+  <section class="container mx-auto px-4 py-8">
+    <div class="h-8 w-32 bg-zinc-800 rounded mb-6 animate-pulse"></div>
+    <div
+      class="rounded-lg overflow-hidden border border-zinc-800 bg-zinc-900/40"
+    >
+      <app-game-detail-skeleton />
+    </div>
+  </section>
+} @else if (resource.error()) {
+  <section
+    class="container mx-auto px-4 py-20 flex flex-col items-center text-center"
+  >
+    <h2 class="text-2xl font-bold text-red-400 mb-2">Error al cargar</h2>
+    <p class="text-zinc-400 mb-6">
+      No se ha podido obtener la información del juego.
+    </p>
+    <div class="flex gap-3">
+      <button
+        type="button"
+        (click)="retry()"
+        class="px-4 py-2 rounded bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium transition-colors cursor-pointer"
+      >
+        Reintentar
+      </button>
+      <a
+        routerLink="/"
+        class="px-4 py-2 rounded border border-zinc-700 hover:border-zinc-500 text-zinc-300 text-sm font-medium transition-colors"
+      >
+        Volver al inicio
+      </a>
+    </div>
+  </section>
+} @else if (game(); as g) {
+  <section class="container mx-auto px-4 py-8">
+    <a
+      routerLink="/"
+      class="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors mb-6"
+    >
+      <span>←</span>
+      <span>Volver</span>
+    </a>
+    <div
+      class="rounded-lg overflow-hidden border border-zinc-800 bg-zinc-900/40"
+    >
+      <app-game-detail-content [game]="g" />
+    </div>
+  </section>
+}

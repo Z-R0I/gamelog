@@ -1,32 +1,42 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { Game } from '../../core/models/game';
 import { FavoriteService } from '../../core/services/favorites.service';
+import { GameDetailModalService } from '../../core/services/game-detail-modal.service';
+import { StarIcon } from '../star-icon/star-icon';
 
 @Component({
   selector: 'app-game-card',
-  imports: [],
+  imports: [StarIcon],
   templateUrl: './game-card.html',
 })
 export class GameCard {
-  private favorites = inject(FavoriteService);
+  private readonly favorites = inject(FavoriteService);
+  private readonly modal = inject(GameDetailModalService);
 
   game = input.required<Game>();
 
-  isFavorite = computed(() => this.favorites.has(this.game().id));
+  protected readonly isFavorite = computed(() =>
+    this.favorites.has(this.game().id),
+  );
 
-  cardClasses = computed(() =>
+  protected readonly cardClasses = computed(() =>
     this.isFavorite()
       ? 'border-amber-400 shadow-lg shadow-amber-400/30'
       : 'border-zinc-800 hover:border-violet-500/50 hover:shadow-lg hover:shadow-violet-500/10',
   );
 
-  starClasses = computed(() =>
-    this.isFavorite()
-      ? 'fill-amber-400 stroke-amber-400'
-      : 'fill-transparent stroke-white',
-  );
+  protected openDetail(): void {
+    this.modal.open(this.game().id);
+  }
 
-  toggleFavorite(event: Event): void {
+  protected onKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.openDetail();
+    }
+  }
+
+  protected toggleFavorite(event: Event): void {
     event.stopPropagation();
     event.preventDefault();
     this.favorites.toggle(this.game());

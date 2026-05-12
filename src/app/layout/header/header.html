@@ -1,15 +1,21 @@
-<header class="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-50">
+<header
+  class="fixed top-0 left-0 right-0 border-b border-border bg-background/80 backdrop-blur-sm z-50"
+>
   <nav class="container mx-auto px-4 h-16 flex items-center justify-between">
-    <a routerLink="/" class="text-xl font-bold bg-gradient-to-r from-violet-400 to-fuchsia-500 bg-clip-text text-transparent">
+    <a
+      routerLink="/"
+      class="text-xl font-bold bg-gradient-to-r from-violet-400 to-fuchsia-500 bg-clip-text text-transparent"
+    >
       Gamelog
     </a>
-    <ul class="flex items-center gap-6 text-sm">
+    <ul class="flex items-center gap-2 text-sm">
       <li>
         <a
           routerLink="/"
-          routerLinkActive="text-foreground"
+          routerLinkActive="!text-white !bg-white/10"
+          ariaCurrentWhenActive="page"
           [routerLinkActiveOptions]="{ exact: true }"
-          class="text-muted-foreground hover:text-foreground transition-colors"
+          class="px-3 py-2 rounded-md font-medium text-zinc-400 hover:text-white hover:bg-white/5 transition-colors"
         >
           Home
         </a>
@@ -17,8 +23,9 @@
       <li>
         <a
           routerLink="/search"
-          routerLinkActive="text-foreground"
-          class="text-muted-foreground hover:text-foreground transition-colors"
+          routerLinkActive="!text-white !bg-white/10"
+          ariaCurrentWhenActive="page"
+          class="px-3 py-2 rounded-md font-medium text-zinc-400 hover:text-white hover:bg-white/5 transition-colors"
         >
           Buscar
         </a>
@@ -26,8 +33,9 @@
       <li>
         <a
           routerLink="/favorites"
-          routerLinkActive="text-foreground"
-          class="text-muted-foreground hover:text-foreground transition-colors"
+          routerLinkActive="!text-white !bg-white/10"
+          ariaCurrentWhenActive="page"
+          class="px-3 py-2 rounded-md font-medium text-zinc-400 hover:text-white hover:bg-white/5 transition-colors"
         >
           Favoritos
         </a>

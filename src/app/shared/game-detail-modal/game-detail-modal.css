@@ -1,0 +1,69 @@
+.game-detail-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  margin: 0;
+  width: calc(100% - 2rem);
+  max-width: 64rem;
+  max-height: calc(100vh - 2rem);
+  overflow: hidden;
+  opacity: 1;
+  transition:
+    opacity 200ms ease,
+    transform 200ms ease,
+    overlay 200ms ease allow-discrete,
+    display 200ms ease allow-discrete;
+}
+
+.game-detail-dialog:not([open]) {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.96);
+  pointer-events: none;
+}
+
+@starting-style {
+  .game-detail-dialog[open] {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+}
+
+.game-detail-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  opacity: 1;
+  transition:
+    opacity 200ms ease,
+    overlay 200ms ease allow-discrete,
+    display 200ms ease allow-discrete;
+}
+
+@starting-style {
+  .game-detail-dialog[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+.game-detail-dialog-scroll {
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.game-detail-dialog-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.game-detail-dialog-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.game-detail-dialog-scroll::-webkit-scrollbar-thumb {
+  background: rgb(63 63 70);
+  border-radius: 4px;
+}
+
+.game-detail-dialog-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgb(82 82 91);
+}

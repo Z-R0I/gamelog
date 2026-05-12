@@ -1,0 +1,43 @@
+<dialog
+  #dialog
+  (close)="onDialogClose()"
+  (click)="onBackdropClick($event)"
+  aria-labelledby="game-detail-modal-title"
+  class="game-detail-dialog p-0 bg-zinc-950 text-zinc-100 rounded-xl border border-zinc-800 shadow-2xl"
+>
+  <button
+    type="button"
+    (click)="onDialogClose()"
+    aria-label="Cerrar"
+    class="absolute top-3 right-3 z-20 w-9 h-9 inline-flex items-center justify-center rounded-full bg-black/70 backdrop-blur-sm border border-white/10 hover:bg-black/90 hover:scale-110 text-white text-lg transition-all cursor-pointer"
+  >
+    ✕
+  </button>
+
+  <div class="game-detail-dialog-scroll">
+    @if (resource.isLoading()) {
+      <app-game-detail-skeleton />
+    } @else if (resource.error()) {
+      <div class="px-6 py-16 flex flex-col items-center text-center">
+        <h2
+          id="game-detail-modal-title"
+          class="text-2xl font-bold text-red-400 mb-2"
+        >
+          Error al cargar
+        </h2>
+        <p class="text-zinc-400 mb-6">
+          No se ha podido obtener la información del juego.
+        </p>
+        <button
+          type="button"
+          (click)="retry()"
+          class="px-4 py-2 rounded bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium transition-colors cursor-pointer"
+        >
+          Reintentar
+        </button>
+      </div>
+    } @else if (game(); as g) {
+      <app-game-detail-content [game]="g" />
+    }
+  </div>
+</dialog>

@@ -17,7 +17,7 @@ export class FavoriteService {
 
   readonly favoriteGames = computed<Game[]>(() => Object.values(this._cache()));
   readonly favoriteIds = computed<number[]>(() =>
-    Object.values(this._cache()).map((g) => g.id),
+    Object.keys(this._cache()).map(Number),
   );
   readonly count = computed(() => this.favoriteIds().length);
   readonly isEmpty = computed(() => this.count() === 0);
@@ -46,8 +46,9 @@ export class FavoriteService {
   remove(id: number): void {
     if (!this.has(id)) return;
     this._cache.update((cache) => {
-      const { [id]: _, ...rest } = cache;
-      return rest;
+      const next = { ...cache };
+      delete next[id];
+      return next;
     });
   }
 

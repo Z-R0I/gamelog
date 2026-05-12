@@ -20,6 +20,7 @@ export interface Game {
   genres: Genre[];
   platforms: PlatformInfo[];
   shortScreenshots: Screenshot[];
+  description?: string;
 }
 
 export interface Genre {

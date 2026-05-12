@@ -24,6 +24,7 @@ export function mapGame(dto: GameDto): Game {
     genres: dto.genres,
     platforms: (dto.platforms ?? []).map(mapPlatformInfo),
     shortScreenshots: dto.short_screenshots ?? [],
+    description: dto.description_raw?.trim() || undefined,
   };
 }
 

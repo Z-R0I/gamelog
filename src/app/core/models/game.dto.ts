@@ -24,6 +24,8 @@ export interface GameDto {
   genres: Genre[];
   platforms: PlatformInfoDto[];
   short_screenshots: Screenshot[];
+  description_raw?: string;
+  description?: string;
 }
 
 export interface GamesResponseDto {
