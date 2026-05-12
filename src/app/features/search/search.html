@@ -1,4 +1,154 @@
-<section class="container mx-auto px-4 py-12">
-  <h2 class="text-3xl font-bold">Buscar juegos</h2>
-  <p class="text-muted-foreground mt-2">Próximamente.</p>
+<section class="container mx-auto px-4 py-10 space-y-8">
+  <header class="space-y-2">
+    <h1 class="text-3xl font-bold tracking-tight">Buscar</h1>
+    <p class="text-sm text-zinc-500">
+      Explora el catálogo por nombre, género, plataforma y orden.
+    </p>
+  </header>
+
+  <form
+    [formGroup]="form"
+    class="space-y-4 rounded-xl border border-zinc-800 bg-zinc-900/40 p-5 backdrop-blur-sm"
+  >
+    <label class="block">
+      <span class="sr-only">Buscar por nombre</span>
+      <div
+        class="relative flex items-center rounded-lg border border-zinc-700 bg-zinc-950/60 focus-within:border-violet-500 focus-within:ring-2 focus-within:ring-violet-500/30 transition"
+      >
+        <span class="pl-3 text-zinc-500" aria-hidden="true">⌕</span>
+        <input
+          type="search"
+          formControlName="search"
+          placeholder="Nombre del juego…"
+          autocomplete="off"
+          class="w-full bg-transparent px-3 py-2.5 text-sm placeholder:text-zinc-500 focus:outline-none"
+        />
+      </div>
+    </label>
+
+    <div class="grid gap-3 sm:grid-cols-3">
+      <label class="block">
+        <span class="block text-[10px] uppercase tracking-wider text-zinc-500 mb-1.5">
+          Género
+        </span>
+        <select
+          formControlName="genre"
+          class="w-full rounded-lg border border-zinc-700 bg-zinc-950/60 px-3 py-2 text-sm text-zinc-200 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30 transition"
+        >
+          <option [ngValue]="null">Todos</option>
+          @for (g of genres(); track g.id) {
+            <option [ngValue]="g.id">{{ g.name }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="block">
+        <span class="block text-[10px] uppercase tracking-wider text-zinc-500 mb-1.5">
+          Plataforma
+        </span>
+        <select
+          formControlName="platform"
+          class="w-full rounded-lg border border-zinc-700 bg-zinc-950/60 px-3 py-2 text-sm text-zinc-200 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30 transition"
+        >
+          <option [ngValue]="null">Todas</option>
+          @for (p of platforms(); track p.id) {
+            <option [ngValue]="p.id">{{ p.name }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="block">
+        <span class="block text-[10px] uppercase tracking-wider text-zinc-500 mb-1.5">
+          Ordenar por
+        </span>
+        <select
+          formControlName="ordering"
+          class="w-full rounded-lg border border-zinc-700 bg-zinc-950/60 px-3 py-2 text-sm text-zinc-200 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30 transition"
+        >
+          @for (o of orderingOptions; track o.value) {
+            <option [value]="o.value">{{ o.label }}</option>
+          }
+        </select>
+      </label>
+    </div>
+
+    <div class="flex items-center justify-between gap-3 text-xs">
+      <span class="text-zinc-500">
+        @if (isLoading() && results().length === 0) {
+          Buscando…
+        } @else if (totalCount() > 0) {
+          {{ totalCount() }} resultados
+        } @else if (results().length === 0 && !isLoading()) {
+          Sin resultados
+        }
+      </span>
+      <button
+        type="button"
+        (click)="resetFilters()"
+        class="text-zinc-400 hover:text-white transition-colors cursor-pointer"
+      >
+        Limpiar filtros
+      </button>
+    </div>
+  </form>
+
+  @if (results().length === 0 && isLoading()) {
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
+    >
+      @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
+        <div class="aspect-[460/215] shimmer rounded-md"></div>
+      }
+    </div>
+  } @else if (results().length === 0 && !isLoading() && !error()) {
+    <div
+      class="flex flex-col items-center justify-center py-20 text-center border border-dashed border-zinc-800 rounded-lg bg-zinc-900/40"
+    >
+      <p class="text-zinc-400">Prueba con otra búsqueda o ajusta filtros.</p>
+    </div>
+  } @else {
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
+    >
+      @for (game of results(); track game.id) {
+        <app-game-card [game]="game" />
+      }
+    </div>
+
+    @if (hasMore() && !error()) {
+      <div
+        appInfiniteScroll
+        (intersect)="loadMore()"
+        class="h-20 mt-4 flex items-center justify-center"
+      >
+        @if (isLoading()) {
+          <div class="flex items-center gap-3 text-zinc-400 text-sm">
+            <div
+              class="w-4 h-4 border-2 border-violet-500 border-t-transparent rounded-full animate-spin"
+            ></div>
+            <span>Cargando más…</span>
+          </div>
+        }
+      </div>
+    }
+
+    @if (error()) {
+      <div class="mt-4 text-center">
+        <p class="text-red-400 mb-3">{{ error() }}</p>
+        <button
+          type="button"
+          (click)="loadMore()"
+          class="px-4 py-2 rounded bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium transition-colors cursor-pointer"
+        >
+          Reintentar
+        </button>
+      </div>
+    }
+
+    @if (!hasMore() && results().length > 0) {
+      <p class="mt-4 text-center text-zinc-500 text-sm">
+        Fin de resultados.
+      </p>
+    }
+  }
 </section>

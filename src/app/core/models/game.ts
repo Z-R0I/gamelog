@@ -29,6 +29,13 @@ export interface Genre {
   slug: string;
 }
 
+export interface FilterOption {
+  id: number;
+  name: string;
+  slug: string;
+  gamesCount: number;
+}
+
 export interface PlatformInfo {
   platform: {
     id: number;

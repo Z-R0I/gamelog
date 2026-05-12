@@ -1,11 +1,24 @@
-import { HttpClient, HttpParams, httpResource, HttpResourceRef } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpParams,
+  httpResource,
+  HttpResourceRef,
+} from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { Game, GamesResponse } from '../models/game';
-import { GameDto, GamesResponseDto } from '../models/game.dto';
-import { mapGame, mapGamesResponse } from '../mappers/game.mapper';
+import { FilterOption, Game, GamesResponse } from '../models/game';
+import {
+  FilterOptionsResponseDto,
+  GameDto,
+  GamesResponseDto,
+} from '../models/game.dto';
+import {
+  mapFilterOption,
+  mapGame,
+  mapGamesResponse,
+} from '../mappers/game.mapper';
 
 export interface GamesQuery {
   page?: number;
@@ -13,6 +26,8 @@ export interface GamesQuery {
   search?: string;
   ordering?: string;
   dates?: string;
+  genres?: number | string;
+  parentPlatforms?: number | string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -27,6 +42,9 @@ export class RawgService {
     if (query.search?.trim()) params = params.set('search', query.search.trim());
     if (query.ordering) params = params.set('ordering', query.ordering);
     if (query.dates) params = params.set('dates', query.dates);
+    if (query.genres) params = params.set('genres', String(query.genres));
+    if (query.parentPlatforms)
+      params = params.set('parent_platforms', String(query.parentPlatforms));
 
     return this.http
       .get<GamesResponseDto>(`${this.baseUrl}/games`, { params })
@@ -37,6 +55,25 @@ export class RawgService {
     return this.http
       .get<GameDto>(`${this.baseUrl}/games/${id}`, { params: this.buildParams() })
       .pipe(map(mapGame));
+  }
+
+  public getGenres(): Observable<FilterOption[]> {
+    return this.http
+      .get<FilterOptionsResponseDto>(`${this.baseUrl}/genres`, {
+        params: this.buildParams().set('page_size', '40'),
+      })
+      .pipe(map((res) => res.results.map(mapFilterOption)));
+  }
+
+  public getPlatforms(): Observable<FilterOption[]> {
+    return this.http
+      .get<FilterOptionsResponseDto>(
+        `${this.baseUrl}/platforms/lists/parents`,
+        {
+          params: this.buildParams().set('page_size', '20'),
+        },
+      )
+      .pipe(map((res) => res.results.map(mapFilterOption)));
   }
 
   public gameByIdResource(

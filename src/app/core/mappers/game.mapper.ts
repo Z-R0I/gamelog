@@ -1,5 +1,19 @@
-import { Game, GamesResponse, PlatformInfo } from '../models/game';
-import { GameDto, GamesResponseDto, PlatformInfoDto } from '../models/game.dto';
+import { FilterOption, Game, GamesResponse, PlatformInfo } from '../models/game';
+import {
+  FilterOptionDto,
+  GameDto,
+  GamesResponseDto,
+  PlatformInfoDto,
+} from '../models/game.dto';
+
+export function mapFilterOption(dto: FilterOptionDto): FilterOption {
+  return {
+    id: dto.id,
+    name: dto.name,
+    slug: dto.slug,
+    gamesCount: dto.games_count,
+  };
+}
 
 function mapPlatformInfo(dto: PlatformInfoDto): PlatformInfo {
   return {

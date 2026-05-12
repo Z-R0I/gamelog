@@ -1,5 +1,19 @@
 import { Genre, Screenshot } from './game';
 
+export interface FilterOptionDto {
+  id: number;
+  name: string;
+  slug: string;
+  games_count: number;
+}
+
+export interface FilterOptionsResponseDto {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: FilterOptionDto[];
+}
+
 export interface PlatformInfoDto {
   platform: {
     id: number;
