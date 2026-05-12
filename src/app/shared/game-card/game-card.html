@@ -1,10 +1,11 @@
 <article
+  appSpotlight
   (click)="openDetail()"
   (keydown)="onKeydown($event)"
   tabindex="0"
   role="button"
   [attr.aria-label]="'Ver detalles de ' + game().name"
-  class="group relative bg-zinc-900/80 rounded-md overflow-hidden border transition-all duration-300 flex flex-col cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+  class="spotlight-card group relative bg-zinc-900/80 rounded-md overflow-hidden border transition-all duration-300 flex flex-col cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
   [class]="cardClasses()"
 >
   <div class="relative aspect-[460/215] overflow-hidden bg-zinc-800">
@@ -59,20 +60,24 @@
       </span>
       @if (game().released) {
         <span class="text-zinc-500">·</span>
-        <span>{{ game().released }}</span>
-      }
-      @if (game().playtime) {
-        <span class="text-zinc-500">·</span>
-        <span>{{ game().playtime }}h</span>
+        <span>{{ game().released | date: 'dd/MM/yyyy' }}</span>
       }
     </div>
 
-    <div class="flex flex-wrap gap-1 mt-auto">
-      @for (g of game().genres; track g.id) {
+    <div class="flex flex-wrap gap-1 mt-auto min-h-[1.5rem]">
+      @for (g of game().genres.slice(0, 3); track g.id) {
         <span
           class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-zinc-700"
         >
           {{ g.name }}
+        </span>
+      } @empty {
+        <span
+          title="Categoría sin especificar"
+          aria-label="Categoría sin especificar"
+          class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-zinc-900 text-zinc-500 border border-zinc-800 border-dashed"
+        >
+          Otro
         </span>
       }
     </div>

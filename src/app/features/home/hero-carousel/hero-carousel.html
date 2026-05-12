@@ -1,0 +1,108 @@
+@if (slideCount() > 0) {
+  <section
+    class="hero-carousel relative overflow-hidden rounded-2xl border border-zinc-800/80 shadow-2xl shadow-violet-950/30"
+    (mouseenter)="pause()"
+    (mouseleave)="resume()"
+    (focusin)="pause()"
+    (focusout)="resume()"
+    aria-roledescription="carousel"
+    aria-label="Juegos destacados"
+  >
+    <div class="hero-stage relative aspect-[21/8]">
+      @for (game of games(); track game.id; let idx = $index) {
+        <article
+          class="hero-slide"
+          [class.hero-slide-active]="isActive(idx)"
+          [attr.aria-hidden]="!isActive(idx)"
+          [attr.aria-roledescription]="'slide'"
+          [attr.aria-label]="idx + 1 + ' de ' + slideCount()"
+        >
+          @if (game.backgroundImage) {
+            <img
+              [src]="game.backgroundImage"
+              [alt]="game.name"
+              class="hero-image"
+            />
+          }
+
+          <div class="hero-gradient"></div>
+          <div class="hero-side-gradient"></div>
+
+          <div class="hero-content">
+            <span class="hero-eyebrow">Destacado</span>
+            <h2 class="hero-title">{{ game.name }}</h2>
+
+            <div class="hero-meta">
+              @if (game.metacritic) {
+                <span class="hero-meta-badge hero-meta-mc">
+                  <span class="text-[10px] uppercase tracking-wider opacity-70">
+                    Meta
+                  </span>
+                  {{ game.metacritic }}
+                </span>
+              }
+              <span class="hero-meta-item">
+                <span class="text-amber-400">★</span>
+                <span class="font-medium">{{ game.rating }}</span>
+                <span class="text-zinc-500">/ {{ game.ratingTop }}</span>
+              </span>
+              @if (game.released) {
+                <span class="hero-meta-item text-zinc-300">
+                  {{ game.released | date: 'dd/MM/yyyy' }}
+                </span>
+              }
+            </div>
+
+            <div class="hero-genres">
+              @for (genre of game.genres.slice(0, 3); track genre.id) {
+                <span class="hero-genre">{{ genre.name }}</span>
+              }
+            </div>
+
+            <button
+              type="button"
+              (click)="openDetail(game.id)"
+              class="hero-cta"
+            >
+              Ver detalles
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </article>
+      }
+
+      @if (slideCount() > 1) {
+        <button
+          type="button"
+          (click)="prev()"
+          class="hero-nav hero-nav-prev"
+          aria-label="Slide anterior"
+        >
+          ←
+        </button>
+        <button
+          type="button"
+          (click)="next()"
+          class="hero-nav hero-nav-next"
+          aria-label="Slide siguiente"
+        >
+          →
+        </button>
+
+        <div class="hero-dots" role="tablist">
+          @for (game of games(); track game.id; let idx = $index) {
+            <button
+              type="button"
+              role="tab"
+              [attr.aria-selected]="isActive(idx)"
+              [attr.aria-label]="'Ir al slide ' + (idx + 1)"
+              (click)="goTo(idx)"
+              class="hero-dot"
+              [class.hero-dot-active]="isActive(idx)"
+            ></button>
+          }
+        </div>
+      }
+    </div>
+  </section>
+}

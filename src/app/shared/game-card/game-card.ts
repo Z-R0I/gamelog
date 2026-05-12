@@ -1,12 +1,14 @@
+import { DatePipe } from '@angular/common';
 import { Component, computed, inject, input } from '@angular/core';
 import { Game } from '../../core/models/game';
 import { FavoriteService } from '../../core/services/favorites.service';
 import { GameDetailModalService } from '../../core/services/game-detail-modal.service';
+import { SpotlightDirective } from '../spotlight/spotlight.directive';
 import { StarIcon } from '../star-icon/star-icon';
 
 @Component({
   selector: 'app-game-card',
-  imports: [StarIcon],
+  imports: [StarIcon, SpotlightDirective, DatePipe],
   templateUrl: './game-card.html',
 })
 export class GameCard {

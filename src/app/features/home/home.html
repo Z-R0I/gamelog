@@ -1,83 +1,162 @@
-<section class="relative">
-  <div
-    class="absolute inset-0 bg-gradient-to-b from-violet-900/20 via-background to-background pointer-events-none"
-  ></div>
+<div class="container mx-auto px-4 py-10 space-y-14">
+  @if (heroLoading()) {
+    <div class="aspect-[21/8] rounded-2xl shimmer"></div>
+  } @else if (heroGames().length > 0) {
+    <app-hero-carousel [games]="heroGames()" />
+  }
 
-  <div class="relative container mx-auto px-4 py-16 space-y-12">
-    <div class="space-y-3 max-w-2xl">
-      <h1
-        class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-violet-400 to-fuchsia-500 bg-clip-text text-transparent pb-2 leading-tight"
-      >
-        Gamelog
-      </h1>
-      <p class="text-muted-foreground text-lg">
-        Descubre, busca y guarda tus juegos favoritos.
-      </p>
-    </div>
-
-    <div class="space-y-4">
-      <div class="flex items-center justify-between">
-        <h2 class="text-2xl font-semibold tracking-tight">Destacados</h2>
-        <span class="text-sm text-muted-foreground">
-          {{ games().length }} juegos
+  <section appRevealOnScroll class="space-y-5">
+    <header class="flex items-end justify-between">
+      <div class="flex items-center gap-3">
+        <span
+          class="inline-flex w-10 h-10 items-center justify-center rounded-lg bg-gradient-to-br from-amber-400/20 to-orange-500/20 border border-amber-400/30 text-amber-300 text-lg"
+        >
+          ★
         </span>
+        <div>
+          <h2 class="text-2xl font-bold tracking-tight">Aclamados recientes</h2>
+          <p class="text-sm text-zinc-500">Top Metacritic de los últimos 3 años</p>
+        </div>
+      </div>
+    </header>
+
+    @if (topRatedLoading()) {
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
+      >
+        @for (i of [1, 2, 3, 4]; track i) {
+          <div class="aspect-[460/215] shimmer rounded-md"></div>
+        }
+      </div>
+    } @else {
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
+      >
+        @for (game of topRated(); track game.id; let idx = $index) {
+          <div class="relative">
+            @if (idx < 3) {
+              <span
+                class="absolute -top-2 -left-2 z-20 flex items-center justify-center w-8 h-8 rounded-full text-xs font-bold text-zinc-900 shadow-lg"
+                [class]="
+                  idx === 0
+                    ? 'bg-gradient-to-br from-amber-300 to-amber-500 shadow-amber-500/40'
+                    : idx === 1
+                      ? 'bg-gradient-to-br from-zinc-200 to-zinc-400 shadow-zinc-400/40'
+                      : 'bg-gradient-to-br from-orange-400 to-amber-700 shadow-orange-600/40'
+                "
+              >
+                #{{ idx + 1 }}
+              </span>
+            }
+            <app-game-card [game]="game" />
+          </div>
+        }
+      </div>
+    }
+  </section>
+
+  <section appRevealOnScroll class="space-y-5">
+    <header class="flex items-center gap-3">
+      <span
+        class="inline-flex w-10 h-10 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-400/20 to-teal-500/20 border border-emerald-400/30 text-emerald-300 text-lg"
+      >
+        ✦
+      </span>
+      <div>
+        <h2 class="text-2xl font-bold tracking-tight">Lanzamientos recientes</h2>
+        <p class="text-sm text-zinc-500">Lo nuevo del último año</p>
+      </div>
+    </header>
+
+    @if (recentLoading()) {
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
+      >
+        @for (i of [1, 2, 3, 4]; track i) {
+          <div class="aspect-[460/215] shimmer rounded-md"></div>
+        }
+      </div>
+    } @else {
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
+      >
+        @for (game of recent(); track game.id) {
+          <app-game-card [game]="game" />
+        }
+      </div>
+    }
+  </section>
+
+  <section appRevealOnScroll class="space-y-5">
+    <header class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span
+          class="inline-flex w-10 h-10 items-center justify-center rounded-lg bg-gradient-to-br from-violet-400/20 to-fuchsia-500/20 border border-violet-400/30 text-violet-300 text-lg"
+        >
+          ☷
+        </span>
+        <div>
+          <h2 class="text-2xl font-bold tracking-tight">Catálogo</h2>
+          <p class="text-sm text-zinc-500">Explora toda la biblioteca</p>
+        </div>
+      </div>
+      <span class="text-sm text-zinc-500">
+        {{ catalog().length }} cargados
+      </span>
+    </header>
+
+    @if (catalog().length === 0 && catalogLoading()) {
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
+      >
+        @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
+          <div class="aspect-[460/215] shimmer rounded-md"></div>
+        }
+      </div>
+    } @else {
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
+      >
+        @for (game of catalog(); track game.id) {
+          <app-game-card [game]="game" />
+        }
       </div>
 
-      @if (games().length === 0 && isLoading()) {
+      @if (catalogHasMore() && !catalogError()) {
         <div
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
+          appInfiniteScroll
+          (intersect)="loadCatalogMore()"
+          class="h-20 mt-4 flex items-center justify-center"
         >
-          @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
-            <div
-              class="aspect-[460/215] bg-zinc-900/60 rounded-md animate-pulse"
-            ></div>
+          @if (catalogLoading()) {
+            <div class="flex items-center gap-3 text-zinc-400 text-sm">
+              <div
+                class="w-4 h-4 border-2 border-violet-500 border-t-transparent rounded-full animate-spin"
+              ></div>
+              <span>Cargando más juegos…</span>
+            </div>
           }
         </div>
-      } @else {
-        <div
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
-        >
-          @for (game of games(); track game.id) {
-            <app-game-card [game]="game" />
-          }
-        </div>
-
-        @if (hasMore() && !error()) {
-          <div
-            appInfiniteScroll
-            (intersect)="loadMore()"
-            class="h-20 mt-8 flex items-center justify-center"
-          >
-            @if (isLoading()) {
-              <div class="flex items-center gap-3 text-zinc-400 text-sm">
-                <div
-                  class="w-4 h-4 border-2 border-violet-500 border-t-transparent rounded-full animate-spin"
-                ></div>
-                <span>Cargando más juegos…</span>
-              </div>
-            }
-          </div>
-        }
-
-        @if (error()) {
-          <div class="mt-8 text-center">
-            <p class="text-red-400 mb-3">{{ error() }}</p>
-            <button
-              type="button"
-              (click)="loadMore()"
-              class="px-4 py-2 rounded bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium transition-colors cursor-pointer"
-            >
-              Reintentar
-            </button>
-          </div>
-        }
-
-        @if (!hasMore() && games().length > 0) {
-          <p class="mt-8 text-center text-zinc-500 text-sm">
-            Has llegado al final del catálogo.
-          </p>
-        }
       }
-    </div>
-  </div>
-</section>
+
+      @if (catalogError()) {
+        <div class="mt-4 text-center">
+          <p class="text-red-400 mb-3">{{ catalogError() }}</p>
+          <button
+            type="button"
+            (click)="loadCatalogMore()"
+            class="px-4 py-2 rounded bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium transition-colors cursor-pointer"
+          >
+            Reintentar
+          </button>
+        </div>
+      }
+
+      @if (!catalogHasMore() && catalog().length > 0) {
+        <p class="mt-4 text-center text-zinc-500 text-sm">
+          Has llegado al final del catálogo.
+        </p>
+      }
+    }
+  </section>
+</div>

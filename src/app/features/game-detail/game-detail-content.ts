@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { Game } from '../../core/models/game';
 import { FavoriteService } from '../../core/services/favorites.service';
@@ -7,7 +8,7 @@ const DESCRIPTION_PREVIEW_THRESHOLD = 300;
 
 @Component({
   selector: 'app-game-detail-content',
-  imports: [StarIcon],
+  imports: [StarIcon, DatePipe],
   templateUrl: './game-detail-content.html',
 })
 export class GameDetailContent {

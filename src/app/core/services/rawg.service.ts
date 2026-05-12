@@ -11,6 +11,8 @@ export interface GamesQuery {
   page?: number;
   pageSize?: number;
   search?: string;
+  ordering?: string;
+  dates?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -23,6 +25,8 @@ export class RawgService {
     if (query.page) params = params.set('page', String(query.page));
     if (query.pageSize) params = params.set('page_size', String(query.pageSize));
     if (query.search?.trim()) params = params.set('search', query.search.trim());
+    if (query.ordering) params = params.set('ordering', query.ordering);
+    if (query.dates) params = params.set('dates', query.dates);
 
     return this.http
       .get<GamesResponseDto>(`${this.baseUrl}/games`, { params })

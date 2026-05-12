@@ -56,7 +56,10 @@
 
     @if (g.released) {
       <span class="text-sm text-zinc-400">
-        Lanzamiento: <span class="text-zinc-200">{{ g.released }}</span>
+        Lanzamiento:
+        <span class="text-zinc-200">
+          {{ g.released | date: 'dd/MM/yyyy' }}
+        </span>
       </span>
     }
 
