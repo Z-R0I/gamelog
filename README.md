@@ -190,6 +190,6 @@ npm run build        # → dist/gamelog
 
 ## 📄 Licencia
 
-MIT — Tomas Conliguan.
+MIT — Santiago Soto.
 
 Datos juegos vía [RAWG.io](https://rawg.io). No afiliado.
