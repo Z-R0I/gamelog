@@ -4,6 +4,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist/gamelog/browser",
   "rewrites": [
+    { "source": "/api/rawg/:path*", "destination": "/api/rawg?path=:path*" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }

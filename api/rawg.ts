@@ -1,19 +1,21 @@
 const RAWG_BASE = 'https://api.rawg.io/api';
 
-interface VercelRequestLike {
+interface VercelReq {
+  url?: string;
   query: Record<string, string | string[] | undefined>;
 }
 
-interface VercelResponseLike {
-  status(code: number): VercelResponseLike;
+interface VercelRes {
+  status(code: number): VercelRes;
   setHeader(name: string, value: string): void;
   send(body: string): void;
   json(data: unknown): void;
+  end(): void;
 }
 
 export default async function handler(
-  req: VercelRequestLike,
-  res: VercelResponseLike,
+  req: VercelReq,
+  res: VercelRes,
 ): Promise<void> {
   try {
     const apiKey = process.env['RAWG_KEY'];
@@ -22,14 +24,12 @@ export default async function handler(
       return;
     }
 
-    const pathValue = req.query['path'];
-    const segments = Array.isArray(pathValue)
-      ? pathValue
-      : pathValue
-        ? [pathValue]
-        : [];
-    const path = segments.join('/');
-    const upstreamUrl = new URL(`${RAWG_BASE}/${path}`);
+    const pathParam = req.query['path'];
+    const subPath = Array.isArray(pathParam)
+      ? pathParam.join('/')
+      : (pathParam ?? '');
+
+    const upstreamUrl = new URL(`${RAWG_BASE}/${subPath}`);
 
     for (const [key, value] of Object.entries(req.query)) {
       if (key === 'path' || value === undefined) continue;
