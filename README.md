@@ -6,10 +6,13 @@
 
 Frontend portfolio piece showcasing Angular 20 patterns: signals, `httpResource`, view transitions, SWR caching, reactive forms with typed `FormControl`, and modern UI/UX.
 
+### 🌐 [Live demo →](https://gamelog-omega.vercel.app/)
+
 [![Angular](https://img.shields.io/badge/Angular-20-DD0031?logo=angular&logoColor=white)](https://angular.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind](https://img.shields.io/badge/Tailwind-v4-38B2AC?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![RxJS](https://img.shields.io/badge/RxJS-7-B7178C?logo=reactivex&logoColor=white)](https://rxjs.dev/)
+[![Deployed on Vercel](https://img.shields.io/badge/Vercel-deployed-000000?logo=vercel&logoColor=white)](https://gamelog-omega.vercel.app/)
 
 </div>
 
