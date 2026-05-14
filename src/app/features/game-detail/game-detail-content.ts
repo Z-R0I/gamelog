@@ -2,9 +2,13 @@ import { DatePipe } from '@angular/common';
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { Game } from '../../core/models/game';
 import { FavoriteService } from '../../core/services/favorites.service';
+import { resizeRawgImage } from '../../core/utils/rawg-image';
 import { StarIcon } from '../../shared/star-icon/star-icon';
 
 const DESCRIPTION_PREVIEW_THRESHOLD = 300;
+const HERO_WIDTH = 1280;
+const HERO_HEIGHT = 549;
+const SCREENSHOT_WIDTH = 600;
 
 @Component({
   selector: 'app-game-detail-content',
@@ -52,5 +56,13 @@ export class GameDetailContent {
 
   protected toggleDescription(): void {
     this.descriptionExpanded.update((expanded) => !expanded);
+  }
+
+  protected heroImage(url: string | null): string | null {
+    return resizeRawgImage(url, HERO_WIDTH, HERO_HEIGHT);
+  }
+
+  protected screenshotImage(url: string | null): string | null {
+    return resizeRawgImage(url, SCREENSHOT_WIDTH);
   }
 }

@@ -19,8 +19,13 @@
         >
           @if (game.backgroundImage) {
             <img
-              [src]="game.backgroundImage"
+              [src]="resizedImage(game.backgroundImage)"
               [alt]="game.name"
+              width="1280"
+              height="488"
+              [attr.fetchpriority]="isActive(idx) ? 'high' : 'low'"
+              [attr.loading]="idx === 0 ? 'eager' : 'lazy'"
+              decoding="async"
               class="hero-image"
             />
           }

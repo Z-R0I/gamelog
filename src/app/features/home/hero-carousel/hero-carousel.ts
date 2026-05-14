@@ -9,6 +9,10 @@ import {
 } from '@angular/core';
 import { Game } from '../../../core/models/game';
 import { GameDetailModalService } from '../../../core/services/game-detail-modal.service';
+import { resizeRawgImage } from '../../../core/utils/rawg-image';
+
+const HERO_IMAGE_WIDTH = 1280;
+const HERO_IMAGE_HEIGHT = 488;
 
 const AUTOPLAY_INTERVAL_MS = 6000;
 
@@ -73,5 +77,9 @@ export class HeroCarousel {
 
   protected isActive(index: number): boolean {
     return this.currentIndex() === index;
+  }
+
+  protected resizedImage(url: string | null): string | null {
+    return resizeRawgImage(url, HERO_IMAGE_WIDTH, HERO_IMAGE_HEIGHT);
   }
 }

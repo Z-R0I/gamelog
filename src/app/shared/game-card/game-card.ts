@@ -3,8 +3,12 @@ import { Component, computed, inject, input } from '@angular/core';
 import { Game } from '../../core/models/game';
 import { FavoriteService } from '../../core/services/favorites.service';
 import { GameDetailModalService } from '../../core/services/game-detail-modal.service';
+import { resizeRawgImage } from '../../core/utils/rawg-image';
 import { SpotlightDirective } from '../spotlight/spotlight.directive';
 import { StarIcon } from '../star-icon/star-icon';
+
+const CARD_IMAGE_WIDTH = 600;
+const CARD_IMAGE_HEIGHT = 280;
 
 @Component({
   selector: 'app-game-card',
@@ -16,6 +20,10 @@ export class GameCard {
   private readonly modal = inject(GameDetailModalService);
 
   game = input.required<Game>();
+
+  protected readonly imageUrl = computed(() =>
+    resizeRawgImage(this.game().backgroundImage, CARD_IMAGE_WIDTH, CARD_IMAGE_HEIGHT),
+  );
 
   protected readonly isFavorite = computed(() =>
     this.favorites.has(this.game().id),

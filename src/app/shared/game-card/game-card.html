@@ -9,10 +9,14 @@
   [class]="cardClasses()"
 >
   <div class="relative aspect-[460/215] overflow-hidden bg-zinc-800">
-    @if (game().backgroundImage) {
+    @if (imageUrl()) {
       <img
-        [src]="game().backgroundImage"
+        [src]="imageUrl()"
         [alt]="game().name"
+        width="600"
+        height="280"
+        loading="lazy"
+        decoding="async"
         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
       />
     }
