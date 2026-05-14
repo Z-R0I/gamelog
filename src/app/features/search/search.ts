@@ -13,6 +13,7 @@ import {
 import { FilterOption, Game, GamesResponse } from '../../core/models/game';
 import { RawgService } from '../../core/services/rawg.service';
 import { GameCard } from '../../shared/game-card/game-card';
+import { GameCardSkeleton } from '../../shared/game-card-skeleton/game-card-skeleton';
 import { InfiniteScrollDirective } from '../../shared/infinite-scroll/infinite-scroll.directive';
 
 const PAGE_SIZE = 20;
@@ -38,7 +39,12 @@ interface SearchFilters {
 
 @Component({
   selector: 'app-search',
-  imports: [ReactiveFormsModule, GameCard, InfiniteScrollDirective],
+  imports: [
+    ReactiveFormsModule,
+    GameCard,
+    GameCardSkeleton,
+    InfiniteScrollDirective,
+  ],
   templateUrl: './search.html',
 })
 export class Search {

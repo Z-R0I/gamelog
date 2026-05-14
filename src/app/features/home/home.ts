@@ -3,6 +3,7 @@ import { finalize } from 'rxjs/operators';
 import { Game } from '../../core/models/game';
 import { RawgService } from '../../core/services/rawg.service';
 import { GameCard } from '../../shared/game-card/game-card';
+import { GameCardSkeleton } from '../../shared/game-card-skeleton/game-card-skeleton';
 import { InfiniteScrollDirective } from '../../shared/infinite-scroll/infinite-scroll.directive';
 import { RevealOnScrollDirective } from '../../shared/reveal-on-scroll/reveal-on-scroll.directive';
 import { HeroCarousel } from './hero-carousel/hero-carousel';
@@ -15,6 +16,7 @@ const CATALOG_PAGE_SIZE = 20;
   selector: 'app-home',
   imports: [
     GameCard,
+    GameCardSkeleton,
     InfiniteScrollDirective,
     RevealOnScrollDirective,
     HeroCarousel,
