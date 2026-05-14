@@ -51,3 +51,6 @@ src/environments/environment.development.ts
 # Vercel
 .vercel
 
+# Claude Code local config
+.claude/
+
