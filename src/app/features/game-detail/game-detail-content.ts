@@ -7,7 +7,6 @@ import { StarIcon } from '../../shared/star-icon/star-icon';
 
 const DESCRIPTION_PREVIEW_THRESHOLD = 300;
 const HERO_WIDTH = 1280;
-const HERO_HEIGHT = 549;
 const SCREENSHOT_WIDTH = 600;
 
 @Component({
@@ -59,7 +58,7 @@ export class GameDetailContent {
   }
 
   protected heroImage(url: string | null): string | null {
-    return resizeRawgImage(url, HERO_WIDTH, HERO_HEIGHT);
+    return resizeRawgImage(url, HERO_WIDTH);
   }
 
   protected screenshotImage(url: string | null): string | null {

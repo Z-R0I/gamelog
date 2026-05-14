@@ -8,7 +8,6 @@ import { SpotlightDirective } from '../spotlight/spotlight.directive';
 import { StarIcon } from '../star-icon/star-icon';
 
 const CARD_IMAGE_WIDTH = 600;
-const CARD_IMAGE_HEIGHT = 280;
 
 @Component({
   selector: 'app-game-card',
@@ -22,7 +21,7 @@ export class GameCard {
   game = input.required<Game>();
 
   protected readonly imageUrl = computed(() =>
-    resizeRawgImage(this.game().backgroundImage, CARD_IMAGE_WIDTH, CARD_IMAGE_HEIGHT),
+    resizeRawgImage(this.game().backgroundImage, CARD_IMAGE_WIDTH),
   );
 
   protected readonly isFavorite = computed(() =>

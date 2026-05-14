@@ -12,7 +12,6 @@ import { GameDetailModalService } from '../../../core/services/game-detail-modal
 import { resizeRawgImage } from '../../../core/utils/rawg-image';
 
 const HERO_IMAGE_WIDTH = 1280;
-const HERO_IMAGE_HEIGHT = 488;
 
 const AUTOPLAY_INTERVAL_MS = 6000;
 
@@ -80,6 +79,6 @@ export class HeroCarousel {
   }
 
   protected resizedImage(url: string | null): string | null {
-    return resizeRawgImage(url, HERO_IMAGE_WIDTH, HERO_IMAGE_HEIGHT);
+    return resizeRawgImage(url, HERO_IMAGE_WIDTH);
   }
 }

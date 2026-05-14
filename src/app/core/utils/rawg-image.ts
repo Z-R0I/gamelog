@@ -2,18 +2,15 @@ const RAWG_MEDIA_HOST = 'media.rawg.io';
 const MEDIA_PATH_PREFIX = '/media/';
 
 /**
- * Insert a resize transform into a RAWG media URL.
+ * Insert a `resize/<width>/-/` transform into a RAWG media URL to request
+ * a smaller version from the CDN. Keeps the original aspect ratio.
  *
- * RAWG CDN supports transforms via URL path:
- *   crop/<W>/<H>/<rest>      → cropped to exact dimensions
- *   resize/<W>/-/<rest>      → resized keeping aspect ratio
- *
- * Returns the original URL untouched when the host or shape doesn't match.
+ * Returns the original URL untouched when the host or shape doesn't match,
+ * or when the URL already contains a resize/crop transform.
  */
 export function resizeRawgImage(
   url: string | null,
   width: number,
-  height?: number,
 ): string | null {
   if (!url) return url;
   if (!url.includes(RAWG_MEDIA_HOST)) return url;
@@ -28,6 +25,5 @@ export function resizeRawgImage(
     return url;
   }
 
-  const transform = height ? `crop/${width}/${height}/` : `resize/${width}/-/`;
-  return `${head}${transform}${tail}`;
+  return `${head}resize/${width}/-/${tail}`;
 }
